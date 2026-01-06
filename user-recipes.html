@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Recipes - CPE 411L - Activity 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+        nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .share-form h2 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        .share-form input, .share-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .share-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        .share-form button:hover {
+            background-color: #45a049;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Recipe Haven</h1>
+        <p>Your go-to place for delicious recipes!</p>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="recipes.html">Recipes</a>
+        <a href="about.html">About</a>
+        <a href="#user-recipes">User Recipes</a>
+    </nav>
+    <div class="container">
+        <div class="share-form">
+            <h2>Share Your Recipe</h2>
+            <p>Have a delicious recipe to share? Fill out the form below, and it will be added to our Recipes page!</p>
+            <form id="recipe-form">
+                <input type="text" id="recipe-title" placeholder="Recipe Title" required>
+                <input type="url" id="recipe-image" placeholder="Image URL (optional)">
+                <textarea id="recipe-ingredients" placeholder="Ingredients (one per line)" rows="5" required></textarea>
+                <textarea id="recipe-instructions" placeholder="Instructions (one per line)" rows="5" required></textarea>
+                <button type="submit">Submit Recipe</button>
+            </form>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2026 Recipe Haven. All rights reserved.</p>
+    </footer>
+    <script>
+        // Handle form submission
+        document.getElementById('recipe-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('recipe-title').value.trim();
+            const image = document.getElementById('recipe-image').value.trim();
+            const ingredients = document.getElementById('recipe-ingredients').value.trim().split('\n').filter(item => item.trim());
+            const instructions = document.getElementById('recipe-instructions').value.trim().split('\n').filter(item => item.trim());
+
+            if (title && ingredients.length && instructions.length) {
+                const recipe = { title, image, ingredients, instructions };
+                saveRecipe(recipe);
+                // Clear form
+                document.getElementById('recipe-form').reset();
+                alert('Recipe submitted successfully! Check the Recipes page to see it.');
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        // Save recipe to localStorage
+        function saveRecipe(recipe) {
+            let recipes = JSON.parse(localStorage.getItem('userRecipes')) || [];
+            recipes.push(recipe);
+            localStorage.setItem('userRecipes', JSON.stringify(recipes));
+        }
+    </script>
+</body>
+</html>
